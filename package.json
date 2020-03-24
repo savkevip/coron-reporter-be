@@ -17,10 +17,8 @@
     "url": "https://github.com/savkevip/coron-reporter-be/issues"
   },
   "homepage": "https://github.com/savkevip/coron-reporter-be#readme",
-  "devDependencies": {
-    "dotenv": "^8.2.0"
-  },
   "dependencies": {
+    "dotenv": "^8.2.0",
     "@sendgrid/mail": "^6.5.5",
     "@sentry/node": "^5.15.0",
     "cors": "^2.8.5",
