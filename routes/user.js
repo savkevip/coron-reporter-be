@@ -10,7 +10,7 @@ const { User } = require("../models/user");
 
 router.put("/update", auth, async (req, res, next) => {
     try {
-        const { symptoms } = req.body;
+        const { details, symptoms, chronic } = req.body;
         const token = req.headers.authorization;
         const _id = jwt.verify(token, process.env.SECRET_KEY)._id;
         if (!_id) return res.status(401).send("Bad token.");
@@ -22,6 +22,21 @@ router.put("/update", auth, async (req, res, next) => {
         );
 
         res.send(updatedUser);
+    } catch (e) {
+        next(e);
+    }
+});
+
+router.get("/details", auth, async (req, res, next) => {
+    try {
+        const token = req.headers.authorization;
+        const _id = jwt.verify(token, process.env.SECRET_KEY)._id;
+        if (!_id) return res.status(401).send("Bad token.");
+
+        const user = await User.findOne({ _id });
+        if (!user) return res.status(400).send("This user not exist.");
+
+        res.send(user);
     } catch (e) {
         next(e);
     }

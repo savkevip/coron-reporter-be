@@ -3,19 +3,6 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 
 const schema = new mongoose.Schema({
-    email: {
-        type: String,
-        required: true,
-        minlength: 5,
-        maxlength: 50,
-        unique: true
-    },
-    password: {
-        type: String,
-        required: true,
-        minlength: 5,
-        maxlength: 1024
-    },
     role: {
         type: String,
         default: "user",
@@ -25,8 +12,112 @@ const schema = new mongoose.Schema({
         type: Boolean,
         required: true
     },
+    details: {
+        gender: {
+            type: String,
+            enum: ["male", "female"]
+        },
+        pregnancy: {
+            type: Boolean
+        },
+        month: {
+            type: String
+        },
+        age: {
+            type: String
+        },
+        areas: {
+            type: Boolean
+        },
+        contacts: {
+            type: Boolean
+        },
+        smoke: {
+            type: Boolean
+        },
+        surgery: {
+            type: Boolean
+        },
+        sense: {
+            type: Boolean
+        },
+        diarrhea: {
+            type: Boolean
+        },
+        heartDiseases: {
+            type: Boolean
+        },
+        cancer: {
+            type: Boolean
+        },
+        height: {
+            type: String
+        },
+        weight: {
+            type: String
+        },
+        zipCode: {
+            type: String
+        },
+        email: {
+            type: String,
+            required: true,
+            minlength: 5,
+            maxlength: 50,
+            unique: true
+        },
+        password: {
+            type: String,
+            required: true,
+            minlength: 5,
+            maxlength: 1024
+        }
+    },
     symptoms: {
-        type: Object
+        temperature: {
+            type: Boolean
+        },
+        cough: {
+            type: Boolean
+        },
+        chestPain: {
+            type: Boolean
+        },
+        soreThroat: {
+            type: Boolean
+        },
+        fever: {
+            type: Boolean
+        },
+        heavyBreathing: {
+            type: Boolean
+        },
+        headache: {
+            type: Boolean
+        }
+    },
+    chronic: {
+        diabetes: {
+            type: Boolean
+        },
+        asthma: {
+            type: Boolean
+        },
+        copd: {
+            type: Boolean
+        },
+        highBloodPressure: {
+            type: Boolean
+        },
+        tumor: {
+            type: Boolean
+        },
+        other: {
+            type: Boolean
+        },
+        disease: {
+            type: String
+        }
     }
 });
 
