@@ -11,14 +11,16 @@ const { User } = require("../models/user");
 
 router.put("/update", auth, async (req, res, next) => {
     try {
+        const data = { ...req.body };
+        const { error } = validate(data, schemaUser);
+        if (error) return res.status(400).send(error.details[0].message);
+
         const token = req.headers.authorization;
         const _id = jwt.verify(token, process.env.SECRET_KEY)._id;
         if (!_id) return res.status(401).send("Bad token.");
 
         const updatedUser = await User.findOneAndUpdate(
-            { _id },
-            { ...req.body },
-            { new: true }
+            { _id }, data, { new: true }
         );
 
         res.send(updatedUser);
@@ -68,5 +70,21 @@ router.delete("/delete", auth, async (req, res, next) => {
         next(e);
     }
 });
+
+const schemaUser = {
+    details: {
+        areas: Joi.boolean().required(),
+        contact: Joi.boolean().required()
+    },
+    symptoms: {
+        temperature: Joi.boolean().required(),
+        cough: Joi.boolean().required(),
+        chestPain: Joi.boolean().required(),
+        soreThroat: Joi.boolean().required(),
+        fever: Joi.boolean().required(),
+        heavyBreathing: Joi.boolean().required(),
+        headache: Joi.boolean().required()
+    },
+};
 
 module.exports = router;
