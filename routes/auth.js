@@ -33,9 +33,8 @@ router.post("/login", async (req, res, next) => {
 
 router.post("/register", async (req, res, next) => {
    try {
-       const { email, password, acceptedTermsAndConditions, symptoms } = req.body;
+       const { email, password, acceptedTermsAndConditions } = req.body;
 
-       // todo
        const { error } = validate({ email, password }, schemaUser);
        if (error) return res.status(400).send(error.details[0].message);
 
@@ -46,9 +45,13 @@ router.post("/register", async (req, res, next) => {
            return res.status(400).send("Please accept terms and conditions.");
 
        const encryptedPassword = cryptr.encrypt(password);
+       const details = {
+           ...req.body.details,
+           password: encryptedPassword
+       };
        const data = {
            ...req.body,
-           password: encryptedPassword
+           details
        };
 
        const newUser = await User.create(data);
@@ -66,7 +69,7 @@ router.post("/register", async (req, res, next) => {
 
        // await sgMail.send(msg);
 
-       res.send(token);
+       res.send({ token, role: newUser.role });
    } catch (e) {
        next(e)
    }

@@ -35,7 +35,7 @@ router.get("/details", auth, async (req, res, next) => {
         const _id = jwt.verify(token, process.env.SECRET_KEY)._id;
         if (!_id) return res.status(401).send("Bad token.");
 
-        const user = await User.findOne({ _id });
+        const user = await User.findOne({ _id }).select("-password");
         if (!user) return res.status(400).send("This user not exist.");
 
         res.send(user);
