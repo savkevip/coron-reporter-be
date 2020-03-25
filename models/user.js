@@ -29,7 +29,7 @@ const schema = new mongoose.Schema({
         areas: {
             type: Boolean
         },
-        contacts: {
+        contact: {
             type: Boolean
         },
         smoke: {

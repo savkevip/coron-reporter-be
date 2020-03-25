@@ -133,14 +133,50 @@ const schemaLogin = {
     email: Joi.string()
         .email({ minDomainAtoms: 2 })
         .required(),
-    password: Joi.string().required()
+    password: Joi.string().min(5).required()
 };
 
 const schemaUser = {
-    email: Joi.string()
-        .email({ minDomainAtoms: 2 })
-        .required(),
-    password: Joi.string().required()
+    acceptedTermsAndConditions: Joi.boolean().requred(),
+    details: {
+        gender: Joi.string().required(),
+        pregnancy: Joi.boolean().required(),
+        month: Joi.string().allow(''),
+        age: Joi.string().required(),
+        areas: Joi.boolean().required(),
+        contact: Joi.boolean().required(),
+        smoke: Joi.boolean().required(),
+        surgery: Joi.boolean().required(),
+        sense: Joi.boolean().required(),
+        diarrhea: Joi.boolean().required(),
+        heartDiseases: Joi.boolean().required(),
+        cancer: Joi.boolean().required(),
+        height: Joi.string().required(),
+        weight: Joi.string().required(),
+        zipCode: Joi.string().required(),
+        email: Joi.string()
+            .email({ minDomainAtoms: 2 })
+            .required(),
+        password: Joi.string().min(5).required()
+    },
+    symptoms: {
+        temperature: Joi.boolean().required(),
+        cough: Joi.boolean().required(),
+        chestPain: Joi.boolean().required(),
+        soreThroat: Joi.boolean().required(),
+        fever: Joi.boolean().required(),
+        heavyBreathing: Joi.boolean().required(),
+        headache: Joi.boolean().required()
+    },
+    chronic: {
+        diabetes: Joi.boolean().required(),
+        asthma: Joi.boolean().required(),
+        copd: Joi.boolean().required(),
+        highBloodPressure: Joi.boolean().required(),
+        tumor: Joi.boolean().required(),
+        other: Joi.boolean().required(),
+        disease: Joi.string().allow('')
+    }
 };
 
 const schemaForgot = {
