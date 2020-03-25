@@ -10,14 +10,13 @@ const { User } = require("../models/user");
 
 router.put("/update", auth, async (req, res, next) => {
     try {
-        const { details, symptoms, chronic } = req.body;
         const token = req.headers.authorization;
         const _id = jwt.verify(token, process.env.SECRET_KEY)._id;
         if (!_id) return res.status(401).send("Bad token.");
 
         const updatedUser = await User.findOneAndUpdate(
             { _id },
-            { symptoms },
+            { ...req.body },
             { new: true }
         );
 
