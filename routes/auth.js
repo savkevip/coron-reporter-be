@@ -36,7 +36,7 @@ router.post("/register", async (req, res, next) => {
    try {
        const { email, password, acceptedTermsAndConditions } = req.body;
 
-       const { error } = validate({ email, password }, schemaUser);
+       const { error } = validate({ ...req.body }, schemaUser);
        if (error) return res.status(400).send(error.details[0].message);
 
        const user = await User.findOne({ details: { email } });
