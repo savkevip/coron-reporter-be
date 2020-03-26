@@ -72,11 +72,11 @@ router.delete("/delete", auth, async (req, res, next) => {
 });
 
 const schemaUser = {
-    details: {
+    details: Joi.object({
         areas: Joi.boolean().required(),
         contact: Joi.boolean().required()
-    },
-    symptoms: {
+    }),
+    symptoms: Joi.object({
         temperature: Joi.boolean().required(),
         cough: Joi.boolean().required(),
         chestPain: Joi.boolean().required(),
@@ -84,7 +84,7 @@ const schemaUser = {
         fever: Joi.boolean().required(),
         heavyBreathing: Joi.boolean().required(),
         headache: Joi.boolean().required()
-    },
+    })
 };
 
 module.exports = router;
