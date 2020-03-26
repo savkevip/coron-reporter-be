@@ -1,4 +1,5 @@
-const { noReplyEmail, templateIds } = require("../utils/templates");
+const { schemaUser } = require("../utils/validation");
+// const { noReplyEmail, templateIds } = require("../utils/templates");
 const jwt = require("jsonwebtoken");
 const Joi = require("joi");
 const auth = require("../middleware/auth");
@@ -70,21 +71,5 @@ router.delete("/delete", auth, async (req, res, next) => {
         next(e);
     }
 });
-
-const schemaUser = {
-    details: Joi.object({
-        areas: Joi.boolean().required(),
-        contact: Joi.boolean().required()
-    }),
-    symptoms: Joi.object({
-        temperature: Joi.boolean().required(),
-        cough: Joi.boolean().required(),
-        chestPain: Joi.boolean().required(),
-        soreThroat: Joi.boolean().required(),
-        fever: Joi.boolean().required(),
-        heavyBreathing: Joi.boolean().required(),
-        headache: Joi.boolean().required()
-    })
-};
 
 module.exports = router;
