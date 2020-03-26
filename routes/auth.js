@@ -17,8 +17,7 @@ router.post("/login", async (req, res, next) => {
         const { error } = validate({ email, password }, schemaLogin);
         if (error) return res.status(400).send(error.details[0].message);
 
-        const user = await User.findOne({ details: { email } });
-        console.log(user);
+        const user = await User.findOne({ email });
         if (!user) return res.status(400).send("This user not exist.");
 
         const decryptedPassword = cryptr.decrypt(user.password);
@@ -34,25 +33,21 @@ router.post("/login", async (req, res, next) => {
 
 router.post("/register", async (req, res, next) => {
    try {
-       const { details: { email, password }, acceptedTermsAndConditions } = req.body;
+       const { email, password, acceptedTermsAndConditions } = req.body;
 
        const { error } = validate({ ...req.body }, schemaUser);
        if (error) return res.status(400).send(error.details[0].message);
 
-       const user = await User.findOne({ details: { email } });
+       const user = await User.findOne({ email });
        if (user) return res.status(400).send("Email already in usage.");
 
        if (!acceptedTermsAndConditions)
            return res.status(400).send("Please accept terms and conditions.");
 
        const encryptedPassword = cryptr.encrypt(password);
-       const details = {
-           ...req.body.details,
-           password: encryptedPassword
-       };
        const data = {
            ...req.body,
-           details
+           password: encryptedPassword
        };
 
        const newUser = await User.create(data);
@@ -82,7 +77,7 @@ router.post("/forgot-password", async (req, res, next) => {
         const { error } = validate({ email }, schemaForgot);
         if (error) return res.status(400).send(error.details[0].message);
 
-        const user = await User.findOne({ details: { email } });
+        const user = await User.findOne({ email });
         if (!user) return res.status(400).send("You are not still register.");
 
         // 6 digit random password
@@ -123,7 +118,7 @@ router.post("/change-password", auth, async (req, res, next) => {
         if (!newPassword) return res.status(400).send("New password is required.");
 
         const password = cryptr.encrypt(newPassword);
-        const data = { _id, details: { password } };
+        const data = { _id, password };
 
         await User.findOneAndUpdate({ _id }, { ...data }, { new: true });
 

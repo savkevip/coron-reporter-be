@@ -12,6 +12,19 @@ const schema = new mongoose.Schema({
         type: Boolean,
         required: true
     },
+    email: {
+        type: String,
+        required: true,
+        minlength: 5,
+        maxlength: 50,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true,
+        minlength: 5,
+        maxlength: 1024
+    },
     details: {
         gender: {
             type: String,
@@ -58,19 +71,6 @@ const schema = new mongoose.Schema({
         },
         zipCode: {
             type: String
-        },
-        email: {
-            type: String,
-            required: true,
-            minlength: 5,
-            maxlength: 50,
-            unique: true
-        },
-        password: {
-            type: String,
-            required: true,
-            minlength: 5,
-            maxlength: 1024
         }
     },
     symptoms: {

@@ -9,6 +9,10 @@ const schemaLogin = {
 
 const schemaUser = {
     acceptedTermsAndConditions: Joi.boolean().required(),
+    email: Joi.string()
+        .email({ minDomainAtoms: 2 })
+        .required(),
+    password: Joi.string().min(5).required(),
     details: Joi.object({
         gender: Joi.string().required(),
         pregnancy: Joi.boolean().required(),
@@ -24,11 +28,7 @@ const schemaUser = {
         cancer: Joi.boolean().required(),
         height: Joi.string().required(),
         weight: Joi.string().required(),
-        zipCode: Joi.string().required(),
-        email: Joi.string()
-            .email({ minDomainAtoms: 2 })
-            .required(),
-        password: Joi.string().min(5).required()
+        zipCode: Joi.string().required()
     }),
     symptoms: Joi.object({
         temperature: Joi.boolean().required(),
