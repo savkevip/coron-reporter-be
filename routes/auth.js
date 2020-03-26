@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
 const Cryptr = require("cryptr");
 // const sgMail = require("@sendgrid/mail");
-const Joi = require("joi");
 const express = require("express");
 const router = express.Router();
 const { User, validate } = require("../models/user");

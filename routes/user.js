@@ -1,7 +1,6 @@
 const { schemaUser } = require("../utils/validation");
 // const { noReplyEmail, templateIds } = require("../utils/templates");
 const jwt = require("jsonwebtoken");
-const Joi = require("joi");
 const auth = require("../middleware/auth");
 // const sgMail = require("@sendgrid/mail");
 const express = require("express");

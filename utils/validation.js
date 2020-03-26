@@ -1,3 +1,5 @@
+const Joi = require("joi");
+
 const schemaLogin = {
     email: Joi.string()
         .email({ minDomainAtoms: 2 })
