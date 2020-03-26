@@ -18,7 +18,8 @@ router.post("/login", async (req, res, next) => {
         if (error) return res.status(400).send(error.details[0].message);
 
         const user = await User.findOne({ details: { email } });
-        if (!user) return res.status(400).send("Invalid email.");
+        console.log(user);
+        if (!user) return res.status(400).send("This user not exist.");
 
         const decryptedPassword = cryptr.decrypt(user.password);
         if (decryptedPassword !== password)
@@ -140,7 +141,7 @@ const schemaLogin = {
 };
 
 const schemaUser = {
-    acceptedTermsAndConditions: Joi.boolean().requred(),
+    acceptedTermsAndConditions: Joi.boolean().required(),
     details: {
         gender: Joi.string().required(),
         pregnancy: Joi.boolean().required(),
@@ -171,7 +172,7 @@ const schemaUser = {
         heavyBreathing: Joi.boolean().required(),
         headache: Joi.boolean().required()
     },
-    chronic: {
+    chronic: Joi.object({
         diabetes: Joi.boolean().required(),
         asthma: Joi.boolean().required(),
         copd: Joi.boolean().required(),
@@ -179,7 +180,7 @@ const schemaUser = {
         tumor: Joi.boolean().required(),
         other: Joi.boolean().required(),
         disease: Joi.string().allow('')
-    }
+    }).allow({})
 };
 
 const schemaForgot = {
