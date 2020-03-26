@@ -142,7 +142,7 @@ const schemaLogin = {
 
 const schemaUser = {
     acceptedTermsAndConditions: Joi.boolean().required(),
-    details: {
+    details: Joi.object({
         gender: Joi.string().required(),
         pregnancy: Joi.boolean().required(),
         month: Joi.string().allow(''),
@@ -162,8 +162,8 @@ const schemaUser = {
             .email({ minDomainAtoms: 2 })
             .required(),
         password: Joi.string().min(5).required()
-    },
-    symptoms: {
+    }),
+    symptoms: Joi.object({
         temperature: Joi.boolean().required(),
         cough: Joi.boolean().required(),
         chestPain: Joi.boolean().required(),
@@ -171,16 +171,16 @@ const schemaUser = {
         fever: Joi.boolean().required(),
         heavyBreathing: Joi.boolean().required(),
         headache: Joi.boolean().required()
-    },
+    }),
     chronic: Joi.object({
-        diabetes: Joi.boolean().required(),
-        asthma: Joi.boolean().required(),
-        copd: Joi.boolean().required(),
-        highBloodPressure: Joi.boolean().required(),
-        tumor: Joi.boolean().required(),
-        other: Joi.boolean().required(),
+        diabetes: Joi.boolean(),
+        asthma: Joi.boolean(),
+        copd: Joi.boolean(),
+        highBloodPressure: Joi.boolean(),
+        tumor: Joi.boolean(),
+        other: Joi.boolean(),
         disease: Joi.string().allow('')
-    }).allow({})
+    })
 };
 
 const schemaForgot = {
