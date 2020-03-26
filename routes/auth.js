@@ -1,4 +1,4 @@
-const { noReplyEmail, templateIds } = require("../utils/templates");
+// const { noReplyEmail, templateIds } = require("../utils/templates");
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
 const Cryptr = require("cryptr");
@@ -17,7 +17,7 @@ router.post("/login", async (req, res, next) => {
         const { error } = validate({ email, password }, schemaLogin);
         if (error) return res.status(400).send(error.details[0].message);
 
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ details: { email } });
         if (!user) return res.status(400).send("Invalid email.");
 
         const decryptedPassword = cryptr.decrypt(user.password);
@@ -38,7 +38,7 @@ router.post("/register", async (req, res, next) => {
        const { error } = validate({ email, password }, schemaUser);
        if (error) return res.status(400).send(error.details[0].message);
 
-       const user = await User.findOne({ email });
+       const user = await User.findOne({ details: { email } });
        if (user) return res.status(400).send("Email already in usage.");
 
        if (!acceptedTermsAndConditions)
@@ -81,7 +81,7 @@ router.post("/forgot-password", async (req, res, next) => {
         const { error } = validate({ email }, schemaForgot);
         if (error) return res.status(400).send(error.details[0].message);
 
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ details: { email } });
         if (!user) return res.status(400).send("You are not still register.");
 
         // 6 digit random password
@@ -101,7 +101,7 @@ router.post("/forgot-password", async (req, res, next) => {
 
         await User.findOneAndUpdate(
             { email },
-            { password: encryptedPassword },
+            { details: { password: encryptedPassword } },
             { new: true }
         );
 
@@ -122,7 +122,7 @@ router.post("/change-password", auth, async (req, res, next) => {
         if (!newPassword) return res.status(400).send("New password is required.");
 
         const password = cryptr.encrypt(newPassword);
-        const data = { _id, password };
+        const data = { _id, details: { password } };
 
         await User.findOneAndUpdate({ _id }, { ...data }, { new: true });
 
