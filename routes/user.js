@@ -1,4 +1,4 @@
-const { schemaUser } = require("../utils/validation");
+const { schemaUpdateUser } = require("../utils/validation");
 // const { noReplyEmail, templateIds } = require("../utils/templates");
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
@@ -11,7 +11,7 @@ const { User, validate } = require("../models/user");
 
 router.put("/update", auth, async (req, res, next) => {
     try {
-        const { error } = validate({ ...req.body }, schemaUser);
+        const { error } = validate({ ...req.body }, schemaUpdateUser);
         if (error) return res.status(400).send(error.details[0].message);
 
         const token = req.headers.authorization;
