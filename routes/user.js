@@ -5,14 +5,13 @@ const auth = require("../middleware/auth");
 // const sgMail = require("@sendgrid/mail");
 const express = require("express");
 const router = express.Router();
-const { User } = require("../models/user");
+const { User, validate } = require("../models/user");
 
 // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 router.put("/update", auth, async (req, res, next) => {
     try {
-        const data = { ...req.body };
-        const { error } = validate(data, schemaUser);
+        const { error } = validate({ ...req.body }, schemaUser);
         if (error) return res.status(400).send(error.details[0].message);
 
         const token = req.headers.authorization;
@@ -20,9 +19,10 @@ router.put("/update", auth, async (req, res, next) => {
         if (!_id) return res.status(401).send("Bad token.");
 
         const updatedUser = await User.findOneAndUpdate(
-            { _id }, data, { new: true }
+            { _id },
+            { ...req.body },
+            { new: true }
         );
-
         res.send(updatedUser);
     } catch (e) {
         next(e);
